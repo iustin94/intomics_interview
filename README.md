@@ -10,16 +10,15 @@ Ontology*, or just *GO*, which is an extensive database of
   * various properties a gene can have, and
   * information on how these properties relate to each other.
   
-In this excercise we will work with some Python code that reads in the
-Gene Ontology database in a suitable data structure and processes the
-data in certain ways. This code could be one of the first steps in
-creating a web based browser for Gene Ontology and related data
-resources.
+In this test we will work with some Python code that reads in the Gene
+Ontology database in a suitable data structure and processes the data
+in certain ways. This code could be one of the first steps in creating
+a web based browser for Gene Ontology and related data resources.
 
 For this test you do not need to understand the many different
 properties the Gene Ontology describes, however you will need to have
 a good understanding of Python, be able to think logically, and know a
-few things about the Gene Ontology database which is described in the
+few things about the Gene Ontology database which are described in the
 following.
 
 The properties that a gene can have are called *GO categories*. In the
@@ -42,24 +41,25 @@ relationships is `GO:0098687` (`chromosomal region`) is `part_of`
 Mathematically speaking, a relationship is a pair of categories, and a
 relation is a set of relationships.
 
-Relations can be combined, e.g. you can construct a new relation
+You can *invert* a relation, e.g. create the relation `has_part` from
+`part_of` by saying that category *a* `has_part` category *b* if
+category *b* is `part_of` category *a* (note that *a* and *b* swapped
+place).
+
+Relations can also be combined, e.g. you can construct a new relation
 `my_rel` from `is_a`and `part_of` by saying that two categories are
 related with `my_rel` if they are related with at least one of the
 `is_a` or `part_of` relations.
 
-Some relations are *transitive*, meaning that if *a* is related to *b*
-and *b* is related to *c*, then *a* is also related to *c*. The `is_a`
-relation is transitive, e.g. we have the relationship `GO:0019953`
-(`sexual reproduction`) `is_a` `GO:0000003` (`reproduction`), and as
-we also have the relationship `GO:0000003` (`reproduction`) `is_a`
-`GO:0008150` (`biological_process`), we know that we have the
-relationship `GO:0019953` (`sexual reproduction`) `is_a` `GO:0008150`
-(`biological_process`). However these indirect relationships are not
-explicitly stated in the Gene Ontology database.
-
-You can also *invert* a relation, e.g. create the relation `has_part`
-from `part_of` by saying that category *a* `has_part` category *b* if
-category *b* is `part_of` category *a*.
+Some relations are *transitive*, meaning that if *a* is related to
+*b*, and *b* is related to *c*, then *a* is also related to *c*. The
+`is_a` relation is transitive, e.g. we have the relationship
+`GO:0019953` (`sexual reproduction`) `is_a` `GO:0000003`
+(`reproduction`), and as we also have the relationship `GO:0000003`
+(`reproduction`) `is_a` `GO:0008150` (`biological_process`), we know
+that we have the relationship `GO:0019953` (`sexual reproduction`)
+`is_a` `GO:0008150` (`biological_process`). However these indirect
+relationships are not explicitly stated in the Gene Ontology database.
 
 There are other aspects of the Gene Ontology database that we don't
 need to know about for now. If you are interested, you can look at
@@ -109,19 +109,19 @@ next tasks.
 ### 3. Implement inverting relations
 
 Add code that finds the inverse of a relation as described in the
-Background section.
+[Background](#background) section.
 
 ### 4. Implement combining relations
 
 Add code that creates a new relation by combining two others as
-described in the Background section.
+described in the [Background](#background) section.
 
 ### 5. Implement making a relation transitive
 
-As was described in the Background section, the `is_a` relation is
-transitive, but all the indirect relationships are not explicitly
-mentioned in the `go.obo` file. Implement code that adds these
-indirect relationships.
+As was described in the [Background](#background) section, the `is_a`
+relation is transitive, but all the indirect relationships are not
+explicitly mentioned in the `go.obo` file. Implement code that adds
+these indirect relationships.
 
 ## Notes
 
