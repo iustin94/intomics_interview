@@ -109,19 +109,19 @@ next tasks.
 ### 3. Implement inverting relations
 
 Add code that finds the inverse of a relation as described in the
-[Background](#background) section.
+[Introduction](#introduction) section.
 
 ### 4. Implement combining relations
 
 Add code that creates a new relation by combining two others as
-described in the [Background](#background) section.
+described in the [Introduction](#introduction) section.
 
 ### 5. Implement making a relation transitive
 
-As was described in the [Background](#background) section, the `is_a`
-relation is transitive, but all the indirect relationships are not
-explicitly mentioned in the `go.obo` file. Implement code that adds
-these indirect relationships.
+As was described in the [Introduction](#introduction) section, the
+`is_a` relation is transitive, but all the indirect relationships are
+not explicitly mentioned in the `go.obo` file. Implement code that
+adds these indirect relationships.
 
 ## Notes
 
