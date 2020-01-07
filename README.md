@@ -128,8 +128,8 @@ adds these indirect relationships.
 All this code should run with Python 3 on an ordinary PC or
 server. CPU and memory requirements should be modest.
 
-We are aware that the tasks are increasingly difficult and time
-consuming. We will not be surprised if you need to put an entire day
+We are aware that some of the tasks are difficult and time
+consuming. We will not be surprised if you need to put several hours
 of work into solving them.
 
 You are welcome to search the Internet for help, but we will expect
