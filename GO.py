@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-        
+
+
 class GO:
     def __init__(self, filename):
         self.categories = {}
         self.relations = {
-            'is_a': GO_relation({'id': ['is_a'],
-                                 'name': ['is_a'],
-                                 'is_transitive': [True]})
+            'is_a':
+            GO_relation({
+                'id': ['is_a'],
+                'name': ['is_a'],
+                'is_transitive': [True]
+            })
         }
         self._read(filename)
         self._init_relations()
-    
+
     def _read(self, filename):
         with open(filename, 'r') as f:
             section = ''
@@ -33,7 +37,7 @@ class GO:
                     try:
                         attributes[k].append(v)
                     except KeyError:
-                        attributes[k] = [ v ]
+                        attributes[k] = [v]
 
     def _init_relations(self):
         is_a = self.relations['is_a']
@@ -73,20 +77,20 @@ class GO_category:
     def __lt__(self, other):
         return self.id < other.id
 
-    
+
 class GO_relation:
     def __init__(self, attributes):
         attributes = attributes.copy()
         self.id = _pop_single_value('id', attributes)
         self.name = _pop_single_value('name', attributes)
-        self.is_transitive = ('is_transitive' in attributes and
-                              str(_pop_single_value('is_transitive', attributes)).lower() != 'false')
+        self.is_transitive = ('is_transitive' in attributes and str(
+            _pop_single_value('is_transitive', attributes)).lower() != 'false')
         self.others = attributes
         self.pairs = {}
-        
+
     def __repr__(self):
         return '<{}>'.format(self.id)
-    
+
     def add_pair(self, category1, category2):
         if not isinstance(category1, GO_category):
             raise TypeError('category1 must be a GO_category.')
@@ -95,11 +99,12 @@ class GO_relation:
         try:
             self.pairs[category1].add(category2)
         except KeyError:
-            self.pairs[category1] = { category2 }
+            self.pairs[category1] = {category2}
 
     def __contains__(self, pair):
-        if (not isinstance(pair, tuple) or len(pair) != 2 or
-            not isinstance(pair[0], GO_category) or not isinstance(pair[1], GO_category)):
+        if (not isinstance(pair, tuple) or len(pair) != 2
+                or not isinstance(pair[0], GO_category)
+                or not isinstance(pair[1], GO_category)):
             raise TypeError('pair must be a tuple of two GO_category objects.')
         try:
             return pair[1] in self.pairs[pair[0]]
@@ -113,7 +118,7 @@ class GO_relation:
             return self.pairs[category]
         except KeyError:
             return set()
-        
+
     def __iter__(self):
         for category1 in self.pairs:
             for category2 in self.pairs[category1]:
@@ -122,7 +127,11 @@ class GO_relation:
     def copy(self):
         cls = self.__class__
         result = cls.__new__(cls)
-        attributes = {'id': [self.id], 'name': [self.name], 'is_transitive': [self.is_transitive]}
+        attributes = {
+            'id': [self.id],
+            'name': [self.name],
+            'is_transitive': [self.is_transitive]
+        }
         attributes.update(self.others)
         result.__init__(attributes)
         for category1, category2 in self:
@@ -130,8 +139,6 @@ class GO_relation:
         return result
 
     def __eq__(self, other):
-        return (self.id == other.id and
-                self.name == other.name and
-                self.is_transitive == other.is_transitive and
-                self.others == other.others and
-                self.pairs == other.pairs)
+        return (self.id == other.id and self.name == other.name
+                and self.is_transitive == other.is_transitive
+                and self.others == other.others and self.pairs == other.pairs)
