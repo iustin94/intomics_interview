@@ -42,6 +42,7 @@ class GO:
     def _init_relations(self):
         is_a = self.relations['is_a']
         for go, category in self.categories.items():
+            # Is empty here
             if 'is_a' in category.others:
                 for value in category.others['is_a']:
                     other_go, _ = value.split(' ! ', 1)
@@ -69,7 +70,7 @@ class GO_category:
         self.id = _pop_single_value('id', attributes)
         self.name = _pop_single_value('name', attributes)
         self.definition = _pop_single_value('def', attributes)
-        self.others = attributes
+        self.others = {k: v for k, v in attributes.items()}
 
     def __repr__(self):
         return '{} ({})'.format(self.id, self.name)
@@ -85,7 +86,7 @@ class GO_relation:
         self.name = _pop_single_value('name', attributes)
         self.is_transitive = ('is_transitive' in attributes and str(
             _pop_single_value('is_transitive', attributes)).lower() != 'false')
-        self.others = attributes
+        self.others = {k: v for k, v in attributes.items()}
         self.pairs = {}
 
     def __repr__(self):
