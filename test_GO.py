@@ -180,3 +180,5 @@ def test_GO_1():
 def test_GO_2():
     go = GO.GO('go.obo')
     assert len(go.relations['is_a'][go.categories['GO:0000022']]) == 2
+
+
