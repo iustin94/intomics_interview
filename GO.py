@@ -62,6 +62,7 @@ class GO:
         def _reverse_relation(old_name, new_name):
             old_relations = self.relations[old_name]
             new_relations = old_relations.copy()
+            new_relations.id = new_name
             new_relations.name = new_name
             new_relations.pairs = {}
 
@@ -75,6 +76,19 @@ class GO:
             self.relations[new_name] = new_relations
 
         _reverse_relation('part_of', 'has_part')
+
+    def _combine_is_a_and_part_of(self):
+
+        def _combine_relation(relation1: str, relation2: str, new_relation: str):
+            for par in [relation1, relation2, new_relation]:
+                if not isinstance(par, str):
+                    raise TypeError("Parameters must be of type string")
+
+            relation1 = self.relations[relation1]
+            relation2 = self.relations[relation2]
+            new_relation = GO_relation({'id': 'GO:xxxxx', 'name': new_relation}) 
+
+        _combine_relation('is_a', 'part_of', 'combine_relation')
 
 
 def _pop_single_value(k, values):
