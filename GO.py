@@ -14,7 +14,7 @@ class GO:
         }
         self._read(filename)
         self._init_relations()
-        #self._reverse_relations()
+        self._reverse_has_part_relations()
 
     def _read(self, filename):
         with open(filename, 'r') as f:
@@ -55,6 +55,26 @@ class GO:
                     other_category = self.categories[other_go]
                     self.relations[rel].add_pair(category, other_category)
                 del category.others['relationship']
+
+    def _reverse_has_part_relations(self):
+        # Inner method could be taken out once we'd have a clear dictionary of 
+        # old_names and new_names to run on
+        def _reverse_relation(old_name, new_name):
+            old_relations = self.relations[old_name]
+            new_relations = old_relations.copy()
+            new_relations.name = new_name
+            new_relations.pairs = {}
+
+            # Inverse the pairs
+            for pair in old_relations.pairs.items():
+                category1 = pair[0]
+                category2 = pair[1]
+
+                for category in category2:
+                    new_relations.add_pair(category, category1)
+            self.relations[new_name] = new_relations
+
+        _reverse_relation('part_of', 'has_part')
 
 
 def _pop_single_value(k, values):

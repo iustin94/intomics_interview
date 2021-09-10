@@ -182,3 +182,11 @@ def test_GO_2():
     assert len(go.relations['is_a'][go.categories['GO:0000022']]) == 2
 
 
+# Test if inverse relation works
+def test_GO_3():
+    # Not too confident on the result, I did the logic and took the first
+    # 'part_of' relation category for a test. Logically it seems ok but testing
+    # on a smaller subset of a go.obo file is waranted
+    go = GO.GO('go.obo')
+    assert len(go.relations['has_part'][go.categories['GO:0005829']]) == 55
+
