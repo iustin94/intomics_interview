@@ -15,6 +15,7 @@ class GO:
         self._read(filename)
         self._init_relations()
         self._reverse_has_part_relations()
+        self._combine_is_a_and_part_of()
 
     def _read(self, filename):
         with open(filename, 'r') as f:
@@ -69,9 +70,9 @@ class GO:
             # Inverse the pairs
             for pair in old_relations.pairs.items():
                 category1 = pair[0]
-                category2 = pair[1]
+                category_list = pair[1]
 
-                for category in category2:
+                for category in category_list:
                     new_relations.add_pair(category, category1)
             self.relations[new_name] = new_relations
 
@@ -80,15 +81,36 @@ class GO:
     def _combine_is_a_and_part_of(self):
 
         def _combine_relation(relation1: str, relation2: str, new_relation: str):
+
             for par in [relation1, relation2, new_relation]:
                 if not isinstance(par, str):
                     raise TypeError("Parameters must be of type string")
 
             relation1 = self.relations[relation1]
             relation2 = self.relations[relation2]
-            new_relation = GO_relation({'id': 'GO:xxxxx', 'name': new_relation}) 
+            new_relation = GO_relation({'id': new_relation, 'name': new_relation,
+                'values'})
 
-        _combine_relation('is_a', 'part_of', 'combine_relation')
+            # Take all categories from the first relation into the new relation
+            for pair in relation1.pairs.items():
+                category1 = pair[0]
+                category_list = pair[1]
+
+                for category in category_list:
+                    new_relation.add_pair(category1, category)
+
+            # Add all categories from the second relation to the new relation
+            for pair in relation2.pairs.items():
+                category1 = pair[0]
+                category_list = pair[1]
+
+                for category in category_list:
+                    new_relation.add_pair(category1, category)
+
+            breakpoint()
+            self.relations[new_relation] = new_relation
+
+        _combine_relation('is_a', 'part_of', 'related_to_is_a_or_part_of')
 
 
 def _pop_single_value(k, values):

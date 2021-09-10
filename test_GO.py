@@ -190,3 +190,8 @@ def test_GO_3():
     go = GO.GO('go.obo')
     assert len(go.relations['has_part'][go.categories['GO:0005829']]) == 55
 
+
+def test_GO_4():
+    go = GO.GO('go.obo')
+    breakpoint()
+    assert len(go.relations['related_to_is_a_or_part_of'][go.categores['GO:0005829']]) == 0
