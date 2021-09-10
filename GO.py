@@ -148,6 +148,11 @@ class GO_relation:
 
     def copy(self):
         cls = self.__class__
+
+        # Interesting enough this line causes an error on one machine but not
+        # on another, both running python 3.8.10, error occours if the pytest
+        # module is not installed in a virtual environment but onthe system
+        # instead
         result = cls.__new__(cls)
         attributes = {
             'id': [self.id],
