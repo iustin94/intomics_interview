@@ -80,16 +80,17 @@ class GO:
 
     def _combine_is_a_and_part_of(self):
 
-        def _combine_relation(relation1: str, relation2: str, new_relation: str):
+        def _combine_relation(relation1: str, relation2: str):
 
+            new_relation = "{}_related_to_{}".format(relation1, relation2)
             for par in [relation1, relation2, new_relation]:
                 if not isinstance(par, str):
                     raise TypeError("Parameters must be of type string")
 
             relation1 = self.relations[relation1]
             relation2 = self.relations[relation2]
-            new_relation = GO_relation({'id': new_relation, 'name': new_relation,
-                'values'})
+            relation = GO_relation({'id': [new_relation], 'name': [new_relation],
+                "def": ["combined_category"]})  # Why do we give values as single value lists?
 
             # Take all categories from the first relation into the new relation
             for pair in relation1.pairs.items():
@@ -97,7 +98,7 @@ class GO:
                 category_list = pair[1]
 
                 for category in category_list:
-                    new_relation.add_pair(category1, category)
+                    relation.add_pair(category1, category)
 
             # Add all categories from the second relation to the new relation
             for pair in relation2.pairs.items():
@@ -105,12 +106,11 @@ class GO:
                 category_list = pair[1]
 
                 for category in category_list:
-                    new_relation.add_pair(category1, category)
+                    relation.add_pair(category1, category)
 
-            breakpoint()
-            self.relations[new_relation] = new_relation
+            self.relations[new_relation] = relation
 
-        _combine_relation('is_a', 'part_of', 'related_to_is_a_or_part_of')
+        _combine_relation('is_a', 'part_of')
 
 
 def _pop_single_value(k, values):
